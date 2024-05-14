@@ -1,8 +1,5 @@
 #!/bin/bash
 
-echo "Enter the name"
-read name
-
 sudo systemctl stop onedrive@alex.service
 if [ $? = 0 ]
 then
