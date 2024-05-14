@@ -96,7 +96,8 @@ cron_job="30 11 * * 1 $username sh /mnt/Data/onedrive.sh"
 (crontab -l ; echo "$cron_job") | crontab -
 
 echo "Cron job added: $cron_job"
+chown $username:$username /mnt/Data/onedrive.sh
 
-sed -i 's/sarvind/$username/g' "/mnt/Data/onedrive.sh"
+sed -i 's/$name/$username/g' "/mnt/Data/onedrive.sh"
 
 
