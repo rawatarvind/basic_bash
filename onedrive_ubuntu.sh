@@ -17,7 +17,7 @@ tar -xvf curl-7.55.0.tar.gz;cd curl-7.55.0/;./configure;make -j8;make install
 
 curl -fsS https://dlang.org/install.sh | bash -s ldc-1.18.0
 
-source ~/dlang/ldc-1.18.0/activate
+. ~/dlang/ldc-1.18.0/activate
 
 
 # Clone the OneDrive repository
