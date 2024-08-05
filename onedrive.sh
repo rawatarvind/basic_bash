@@ -10,6 +10,8 @@ rsync -avzP /home/$name/.thunderbird/  /mnt/Data/OneDrive/
 if [ $? = 0 ]
 then
 echo -e "`date` data copied" >> /home/$name/onedrive.log
+email_body="The backup of sarvind to OneDrive completed successfully on $(date)."
+echo "$email_body" | mail -s "status of onedrive backup of sarvind" sarvind@vehant.com
 fi
 
 sudo systemctl start onedrive@alex.service
