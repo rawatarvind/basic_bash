@@ -23,6 +23,8 @@ echo "$name user is added inside '/etc/ssh/ssdh_config' file"
 echo "$name ALL=NOPASSWD: /usr/sbin/openvpn *" >> /etc/sudoers
 
 echo "$name ALL=NOPASSWD: /usr/bin/systemctl restart *" >> /etc/sudoers
+echo "$name ALL=NOPASSWD: /usr/bin/systemctl start onedrive@alex.service" >> /etc/sudoers
+echo "$name ALL=NOPASSWD: /usr/bin/systemctl stop onedrive@alex.service" >> /etc/sudoers
 echo "$name ALL=NOPASSWD: /usr/bin/mount *" >> /etc/sudoers
 echo "$name ALL=NOPASSWD: /usr/bin/umount  *" >> /etc/sudoers
 echo "$name ALL=NOPASSWD: /usr/bin/tail *" >> /etc/sudoers
