@@ -99,7 +99,7 @@ echo "created  Onedrive dir successfully"
 
 
 # Define the cron job command
-cron_job="30 11 * * 1 $username sh /mnt/Data/onedrive.sh"
+cron_job="30 11 * * 1 $username /bin/bash /mnt/Data/onedrive.sh"
 
 # Add the cron job using crontab
 (crontab -l ; echo "$cron_job") | crontab -
