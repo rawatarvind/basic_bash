@@ -1,14 +1,12 @@
 #!/bin/bash
 
-apt install build-essential libcu10.40.1.11rl4-openssl-dev  libsqlite3-dev pkg-config git  curl  libnotify-dev
+apt-get install build-essential libssl-dev libsqlite3-dev pkg-config git curl libnotify-dev -y
 
 if [ $? -eq 0 ]
 then
    echo "The installation of Packages is done Successfully"
-
 else
-   echo "the installation of Packages is not done"
-
+   echo "The installation of Packages is not done"
 fi
 
 wget https://github.com/curl/curl/releases/download/curl-7_55_0/curl-7.55.0.tar.gz 
@@ -35,7 +33,7 @@ make install || { echo "Error: Failed to install OneDrive"; exit 1; }
 # Deactivate the virtual environment
 deactivate || { echo "Warning: Failed to deactivate virtual environment"; }
 
-config_file="/root/onedrive/config"
+config_file="/root/curl-7.55.0/onedrive/config"
 # Prompt the user for their name
 read -p "Enter the username: " username
 if [[ -z "$username" ]]; then
@@ -67,14 +65,16 @@ chown $username:$username /var/log/onedrive/ -R
 new_file="/home/$username/.config/onedrive/config"
 
 # Define the lines you want to uncomment
+# Define the lines you want to uncomment
 lines_to_uncomment=(
-    "sync_dir = \"~/OneDrive\""
-    "skip_file = \"~*|.~*|*.tmp\""
-    "monitor_interval = \"300\""
-    "skip_dir = \"\""
-    "log_dir = \"/var/log/onedrive/\""
-    "upload_only = \"false\""
+    'sync_dir = "~/OneDrive"'
+    'skip_file = "~*|.~*|*.tmp"'
+    'monitor_interval = "300"'
+    'skip_dir = ""'
+    'log_dir = "/var/log/onedrive/"'
+    'upload_only = "false"'
 )
+
 
 # Loop through the lines and uncomment them in the config file
 for line in "${lines_to_uncomment[@]}"; do
@@ -105,5 +105,3 @@ cron_job="30 11 * * 1 $username sh /mnt/Data/onedrive.sh"
 (crontab -l ; echo "$cron_job") | crontab -
 
 echo "Cron job added: $cron_job"
-
-
