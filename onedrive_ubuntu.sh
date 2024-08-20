@@ -84,11 +84,11 @@ for line in "${lines_to_uncomment[@]}"; do
 
 done
 
-
 #echo "Uncommented lines in the configuration file: $config_file"
 echo "Modified and uncommented lines in the configuration file: $new_file"
 
 sed -i "s|sync_dir = \"~/OneDrive\"|sync_dir = \"/mnt/Data/OneDrive\"|" "$new_file"
+
 
 
 mkdir -p /mnt/Data/OneDrive/
