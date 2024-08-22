@@ -6,7 +6,7 @@ then
 echo -e "`date` stoped onedrive" > /home/$name/onedrive.log 
 fi
 
-rsync -avzP /home/$name/.thunderbird/  /mnt/Data/OneDrive/
+rsync -avzP /home/$name/.thunderbird  /mnt/Data/OneDrive/
 if [ $? = 0 ]
 then
 echo -e "`date` data copied" >> /home/$name/onedrive.log
