@@ -1,23 +1,31 @@
 #!/bin/bash
 
+# Define colors
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+BLUE="\e[34m"
+RESET="\e[0m"
+
+
 yum install google-chrome skypeforlinux.x86_64 zoom.x86_64 wps-office.x86_64 glade* slack.x86_64 fusioninventory-agent.x86_64  openvpn.x86_64 usbguard.x86_64  anydesk.x86_64 ntfs-3g.x86_64 kernel-ml-5.9.1-1.el7.elrepo.x86_64 -y 
 
 
 if [ $? -eq 0 ]
 then 
-   echo "The installation of Packages is done Successfully"
+   echo -e "${GREEN} The installation of Packages is done Successfully ${RESET}"
   
 else 
-   echo "the installation of Packages is not done"
+   echo -e "${RED} the installation of Packages is not done ${RESET}"
 
 fi
 
 # Prompt username and create a new user .
 
-echo "Enter the name"
+echo -e "${BLUE} Enter the name ${RESET}"
 read name
 useradd $name
-echo "$name is created successfully"
+echo "${GREEN} $name is created successfully ${RESET} "
 
 # Set the password for $name user.
 
@@ -26,10 +34,14 @@ sudo passwd "$name"
 
 # Add match user in  sshd_config file. 
 
-echo "Match user $name 
+if grep -q "Match user $name" /etc/ssh/sshd_config; then
+     echo -e "${BLUE} User $name is already exist in '/etc/ssh/sshd_config'${RESET}"
+else
+     echo "Match user $name 
         PasswordAuthentication yes " >>/etc/ssh/sshd_config
 
-echo "$name user is added inside '/etc/ssh/ssdh_config' file"
+     echo -e "$name user is added inside '/etc/ssh/ssdh_config' file"
+fi
 
 # Give sudo access of some services to $name user.
 
@@ -44,46 +56,46 @@ echo "$name ALL=NOPASSWD: /usr/bin/less *" >> /etc/sudoers
 echo "$name ALL=NOPASSWD: /usr/bin/kilall *" >> /etc/sudoers
 echo "$name ALL=NOPASSWD: /usr/bin/sh *" >> /etc/sudoers
 
-echo "$name has been assigned sudoer permission!"
+echo -e ${GREEN}"$name has been assigned sudoer permission!"${RESET}
 
 # Set the UID for "$name" user
 
-echo "Enter the UID"
+echo -e ${BLUE} "Enter the UID" ${RESET}
 read uid
 
 if [[ $uid -gt 1000 ]]; then
      sudo usermod -u "$uid" "$name"
 else
-     echo "Later add uid for $name,as it is less than 1000."
+     echo -e ${GREEN} "Later add uid for $name,as it is less than 1000."${RESET}
 fi
 
 # Add group name  and set the GID. 
 
-echo "Enter the Group Name"
+echo -e "${GREEN} Enter the Group Name ${RESET}"
 read groupname
 sudo groupadd "$groupname"
-echo "$groupname  group is created successfully"
+echo -e "${RED} $groupname ${RESET} group is created successfully"
 
-echo "Enter the GID"
+echo -e "${BLUE} Enter the GID ${RESET}"
 read guid
 
 if [[ $guid -gt 1000 ]]; then
      sudo groupmod -g $guid $groupname
 else
-     echo "later add the GID for $groupname, as it is less than 1000."
+     echo -e "${RED} later add the GID for $groupname, as it is less than 1000.${RESET}"
 fi
 
 # Add the user to the Group
 
 if [[ $guid -gt 1000 ]]; then
     sudo usermod -g "$groupname" "$name"
-    echo "$name has been added to $groupname."
+    echo -e "${GREEN} $name has been added to $groupname.${RESET}"
 else 
-    echo "Add user to the Group later"
+    echo -e "${RED} Add user to the Group later ${RESET}"
 
 fi
 
-echo "$(id $name)"
+echo -e "${GREEN}$(id vivek)${RESET}"
 
 
 
@@ -97,7 +109,7 @@ sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub
 
 sudo flatpak install flathub org.videolan.VLC -y
 
-echo "Vlc installed successfully"
+echo -e "${GREEN} Vlc installed successfully ${RESET}"
 
 # Set default kernel-5.9 
 
@@ -109,7 +121,7 @@ echo -e "allow with-interface one-of {03:01:02}  \nallow with-interface one-of {
 
 if [ $? -eq 0 ] 
 then
-    echo "script run successfully, installed all packages,set kernel 5.9 as default "
+    echo -e "${GREEN} script run successfully, installed all packages,set kernel 5.9 as default ${RESET} "
 else
-    echo "check the error"
+    echo -e "${RED} check the error ${RESET}"
 fi
