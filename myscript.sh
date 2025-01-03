@@ -129,3 +129,10 @@ fi
 chown krishs:krishs /mnt* -R
 ls -l /mnt
 
+# Disabled the Selinux 
+
+sed  's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+
+cat /etc/selinux/config | grep SELINUX=disabled
+
+
