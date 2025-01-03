@@ -155,4 +155,13 @@ sed  's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 
 cat /etc/selinux/config | grep SELINUX=disabled
 
+# stop and disabled the firewall service.
+systemctl stop firewalld.service
+systemctl disable firewalld.service
+systemctl status firewalld.service
+
+echo "Reboot the system "
+
+
+
 
