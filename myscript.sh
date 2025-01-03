@@ -7,6 +7,23 @@ YELLOW="\e[33m"
 BLUE="\e[34m"
 RESET="\e[0m"
 
+# configure repos 
+
+mkdir -p /etc/yum.repos.d/oneline
+
+mv /etc/yum.repos.d/CentOS-* /etc/yum.repos.d/online/
+
+
+# create a local repos file
+
+cat << EOF > /etc/yum.repos.d/local.repo
+[local]
+name=local
+baseurl=http://10.77.1.11/index.html/
+gpgcheck=0
+enabled=1
+EOF
+
 
 yum install google-chrome skypeforlinux.x86_64 zoom.x86_64 wps-office.x86_64 glade* slack.x86_64 fusioninventory-agent.x86_64  thunderbird openvpn.x86_64 usbguard.x86_64  anydesk.x86_64 ntfs-3g.x86_64 kernel-ml-5.9.1-1.el7.elrepo.x86_64 -y 
 
