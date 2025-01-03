@@ -134,7 +134,10 @@ grub2-set-default 0
 
 echo "The default kernel-ml-5.9.1-1.el7.elrepo.x86_64 has been installed, plz reboot once!"
 
-echo -e "allow with-interface one-of {03:01:02}  \nallow with-interface one-of {03:01:01}" > /etc/usbguard/rules.conf
+# Append the lines directly to the file
+echo "allow with-interface one-of {03:01:02}" | sudo tee -a /etc/usbguard/rules.conf
+echo "allow with-interface one-of {03:01:01}" | sudo tee -a /etc/usbguard/rules.conf
+
 
 if [ $? -eq 0 ] 
 then
