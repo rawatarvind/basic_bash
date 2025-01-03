@@ -125,3 +125,7 @@ then
 else
     echo -e "${RED} check the error ${RESET}"
 fi
+# change ownership of /mnt*
+chown krishs:krishs /mnt* -R
+ls -l /mnt
+
