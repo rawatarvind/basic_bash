@@ -1,5 +1,13 @@
 #!/bin/bash
 
+if [[ "$(whoami)" != "root" ]]; then
+  echo "This script must be run as root."
+  exit 1
+fi
+
+# Rest of your script's code here
+echo "Script running as root."
+
 DIR=""
 
 apt-get install build-essential libssl-dev libsqlite3-dev pkg-config git curl libnotify-dev libcurl4-openssl-dev -y
