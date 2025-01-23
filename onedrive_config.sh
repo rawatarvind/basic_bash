@@ -1,12 +1,20 @@
 #! /bin/bash
 
+# Define colors
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+BLUE="\e[34m"
+RESET="\e[0m"
+
+
 yum  groupinstall 'Development Tools' -y && yum install libcurl-devel sqlite-devel libnotify-devel -y
 if [ $? -eq 0 ]
 then
-   echo "The installation of Packages is done Successfully"
+   echo -e ${GREEN} "The installation of Packages is done Successfully"${RESET}
 
 else
-   echo "the installation of Packages is not done"
+   echo -e ${RED} "the installation of Packages is not done"${RESET}
 
 fi
 
@@ -29,7 +37,9 @@ make install || { echo "Error: Failed to install OneDrive"; exit 1; }
 deactivate || { echo "Warning: Failed to deactivate virtual environment"; }
 
 config_file="/root/onedrive/config"
+
 # Prompt the user for their name
+
 read -p "Enter the username: " username
 if [[ -z "$username" ]]; then
     echo "Error: Username cannot be empty"
@@ -44,60 +54,96 @@ chown "$username:$username" "/home/$username/.config/onedrive/" -R || { echo "Er
 cp "$config_file" "/home/$username/.config/onedrive/" || { echo "Error: Failed to copy configuration file"; exit 1; }
 
 # Create log directory and set permissions
-mkdir -p /var/log/onedrive || { echo "Error: Failed to create log directory"; exit 1; }
-chown "$username:$username" /var/log/onedrive/ -R || { echo "Error: Failed to set log directory permissions"; exit 1; }
-
+mkdir -p /var/log/onedrive 
+chown "$username:$username" /var/log/onedrive/ -R 
 echo "Setup completed successfully for user $username"
 
-
-
-mkdir /var/log/onedrive
-
-chown $username:$username /var/log/onedrive/ -R
-
  
+
 # Define the configuration file path
 new_file="/home/$username/.config/onedrive/config"
 
+
+
+# Check if /mnt/Data exists
+if [ -d "/mnt/Data" ]; then
+    DIR="/mnt/Data/OneDrive"
+else
+    DIR="/mnt/Data1/OneDrive"
+fi
+
+mkdir -p "$DIR"
+
+
 # Define the lines you want to uncomment
-lines_to_uncomment=(
-    "sync_dir = \"~/OneDrive\""
-    "skip_file = \"~*|.~*|*.tmp\""
-    "monitor_interval = \"300\""
-    "skip_dir = \"\""
-    "log_dir = \"/var/log/onedrive/\""
-    "upload_only = \"false\""
-)
-
-# Loop through the lines and uncomment them in the config file
-for line in "${lines_to_uncomment[@]}"; do
-    # Use sed to uncomment the line in the config file
-    sed -i "s|^# $line|$line|" "$new_file"
-    sed -i '/^# skip_file = "~\*|.\~\*|\*.tmp"/ s/^# //' "$new_file"
-
-done
+#sed -i 's/^# sync_dir =/sync_dir=\/mnt\/Data1\/OneDrive/' /home/$username/.config/onedrive/config
+#sed -i "s|^# sync_dir =.*|sync_dir = "$DIR"|" /home/$username/.config/onedrive/config
+sed -i "s|^# sync_dir =.*|sync_dir = \"$DIR\"|" /home/$username/.config/onedrive/config
+sed -i 's/^# skip_file/skip_file/' /home/$username/.config/onedrive/config
+sed -i 's/^# monitor_interval/monitor_interval/' /home/$username/.config/onedrive/config
+sed -i 's/^# skip_dir = ""/skip_dir = ""/' /home/$username/.config/onedrive/config
+sed -i 's/^# log_dir/log_dir/' /home/$username/.config/onedrive/config
+sed -i 's/^# upload_only/upload_only/' /home/$username/.config/onedrive/config
 
 #echo "Uncommented lines in the configuration file: $config_file"
-echo "Modified and uncommented lines in the configuration file: $new_file"
+#echo "Modified and uncommented lines in the configuration file: $new_file"
 
-sed -i "s|sync_dir = \"~/OneDrive\"|sync_dir = \"/mnt/Data/OneDrive\"|" "$new_file"
- 
+#sed -i "s|sync_dir = \"~/OneDrive\"|sync_dir = \"/mnt/Data1/OneDrive\"|" "$new_file"
 
-mkdir -p /mnt/Data/OneDrive/
 
-chown $username:$username /mnt/Data/OneDrive -R
+
+#mkdir -p "$DIR"
 
 echo "created  Onedrive dir successfully"
 
+
+
+# Create the onedrive.sh file in the selected directory
+cat <<EOF > "$DIR/onedrive.sh"
+#!/bin/bash
+
+sudo systemctl stop onedrive@alex.service
+if [ $? = 0 ]
+then
+echo -e "`date` stoped onedrive" > /home/$username/onedrive.log 
+fi
+
+rsync -avzP /home/$username/.thunderbird  "$DIR"
+if [ $? = 0 ]
+then
+echo -e "`date` data copied" >> /home/$username/onedrive.log
+fi
+
+sudo systemctl start onedrive@alex.service
+if [ $? = 0 ]
+then
+echo -e "`date` started onedrive" >> /home/$usename/onedrive.log
+fi
+
+/usr/local/bin/onedrive --synchronize
+if [ $? = 0 ]
+then
+echo -e "`date` sync" >> /home/$username/onedrive.log
+fi
+echo -e "`date` script ran successfully" >> /home/$username/onedrive.log
+EOF
+
+# Make the onedrive.sh script executable
+
+chown $username:$username "$DIR" -R
+
+chmod +x "$DIR/onedrive.sh"
+
+
+echo "onedrive.sh has been created and made executable at $DIR/onedrive.sh"
+
+
+
 # Define the cron job command
-cron_job="30 11 * * 1 $username sh /mnt/Data/onedrive.sh"
+cron_job="30 11 * * 1 $username /bin/bash "$DIR/onedrive.sh""
 
 # Add the cron job using crontab
 (crontab -l ; echo "$cron_job") | crontab -
 
 echo "Cron job added: $cron_job"
-chown $username:$username /mnt/Data/onedrive.sh
-
-sed -i 's/$name/$username/g' "/mnt/Data/onedrive.sh"
-
 
