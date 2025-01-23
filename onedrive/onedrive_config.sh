@@ -4,6 +4,7 @@ if [[ "$(whoami)" != "root" ]]; then
   echo "This script must be run as root."
   exit 1
 fi
+DIR=""
 
 # Rest of your script's code here
 echo "Script running as root."
