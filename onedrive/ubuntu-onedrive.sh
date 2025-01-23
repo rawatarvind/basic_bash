@@ -10,6 +10,7 @@ echo "Script running as root."
 
 DIR=""
 
+
 apt-get install build-essential libssl-dev libsqlite3-dev pkg-config git curl libnotify-dev libcurl4-openssl-dev -y
 
 
