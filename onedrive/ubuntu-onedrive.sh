@@ -22,9 +22,9 @@ else
 fi
 
 
-curl -fsS https://dlang.org/install.sh | bash -s ldc-1.18.0
 
-. ~/dlang/ldc-1.18.0/activate
+curl -fsS https://dlang.org/install.sh | bash -s ldc-1.26.0
+source ~/dlang/ldc-1.26.0/activate
 
 
 # Clone the OneDrive repository
