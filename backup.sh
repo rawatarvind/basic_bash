@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Define source directories
-BACKUP_SRC1="/home/vivekanand"
+BACKUP_SRC1="/home/username"
 BACKUP_SRC2="/mnt/Data1"
 BACKUP_SRC3="/mnt/Data2"
 BACKUP_SRC4="/mnt/Data3"
 BACKUP_SRC5="/mnt/Data4"
 
 # Define external drive UUID and mount point
-BACKUP_DRIVE_UUID="4EA9-49D0"  # Replace this with your external drive UUID
-BACKUP_MOUNT="/run/media/vivekanand/Extreme Pro"
+BACKUP_DRIVE_UUID="4EA9-49D0-4568"  # Replace this with your external drive UUID
+BACKUP_MOUNT="/run/media/username/"
 
 # Define backup destinations
 BACKUP_DEST1="$BACKUP_MOUNT/home_backup"
