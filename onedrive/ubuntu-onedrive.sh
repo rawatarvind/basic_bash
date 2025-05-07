@@ -83,15 +83,25 @@ fi
 mkdir -p "$DIR"
 
 
+# Append configuration lines
+echo "sync_dir = \"$DIR\"" >> "$new_file"
+echo 'skip_file = "~*|.~*|*.tmp"' >> "$new_file"
+echo 'monitor_interval = "300"' >> "$new_file"
+echo 'skip_dir = ""' >> "$new_file"
+echo 'log_dir = "/var/log/onedrive/"' >> "$new_file"
+echo 'upload_only = "false"' >> "$new_file"
+
+
+
 # Define the lines you want to uncomment
 #sed -i 's/^# sync_dir =/sync_dir=\/mnt\/Data1\/OneDrive/' /home/$username/.config/onedrive/config
 #sed -i "s|^# sync_dir =.*|sync_dir = "$DIR"|" /home/$username/.config/onedrive/config
-sed -i "s|^# sync_dir =.*|sync_dir = \"$DIR\"|" /home/$username/.config/onedrive/config
-sed -i 's/^# skip_file/skip_file/' /home/$username/.config/onedrive/config
-sed -i 's/^# monitor_interval/monitor_interval/' /home/$username/.config/onedrive/config
-sed -i 's/^# skip_dir = ""/skip_dir = ""/' /home/$username/.config/onedrive/config
-sed -i 's/^# log_dir/log_dir/' /home/$username/.config/onedrive/config
-sed -i 's/^# upload_only/upload_only/' /home/$username/.config/onedrive/config
+#sed -i "s|^# sync_dir =.*|sync_dir = \"$DIR\"|" /home/$username/.config/onedrive/config
+#sed -i 's/^# skip_file/skip_file/' /home/$username/.config/onedrive/config
+#sed -i 's/^# monitor_interval/monitor_interval/' /home/$username/.config/onedrive/config
+#sed -i 's/^# skip_dir = ""/skip_dir = ""/' /home/$username/.config/onedrive/config
+#sed -i 's/^# log_dir/log_dir/' /home/$username/.config/onedrive/config
+#sed -i 's/^# upload_only/upload_only/' /home/$username/.config/onedrive/config
 
 #echo "Uncommented lines in the configuration file: $config_file"
 #echo "Modified and uncommented lines in the configuration file: $new_file"
