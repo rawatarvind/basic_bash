@@ -89,7 +89,7 @@ echo 'skip_file = "~*|.~*|*.tmp"' >> "$new_file"
 echo 'monitor_interval = "300"' >> "$new_file"
 echo 'skip_dir = ""' >> "$new_file"
 echo 'log_dir = "/var/log/onedrive/"' >> "$new_file"
-echo 'upload_only = "false"' >> "$new_file"
+echo 'upload_only = "true"' >> "$new_file"
 
 
 
