@@ -120,7 +120,7 @@ echo "created  Onedrive dir successfully"
 cat <<EOF > "$DIR/onedrive.sh"
 #!/bin/bash
 
-sudo systemctl stop onedrive@alex.service
+#sudo systemctl stop onedrive@alex.service
 if [ $? = 0 ]
 then
 echo -e "`date` stoped onedrive" > /home/$username/onedrive.log 
@@ -132,13 +132,13 @@ then
 echo -e "`date` data copied" >> /home/$username/onedrive.log
 fi
 
-sudo systemctl start onedrive@alex.service
+#sudo systemctl start onedrive@alex.service
 if [ $? = 0 ]
 then
-echo -e "`date` started onedrive" >> /home/$usename/onedrive.log
+echo -e "`date` started onedrive" >> /home/$username/onedrive.log
 fi
 
-/usr/local/bin/onedrive --synchronize
+/usr/local/bin/onedrive --sync
 if [ $? = 0 ]
 then
 echo -e "`date` sync" >> /home/$username/onedrive.log
