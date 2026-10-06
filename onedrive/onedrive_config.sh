@@ -4,7 +4,6 @@ if [[ "$(whoami)" != "root" ]]; then
   echo "This script must be run as root."
   exit 1
 fi
-DIR=""
 
 # Rest of your script's code here
 echo "Script running as root."
@@ -17,8 +16,9 @@ BLUE="\e[34m"
 RESET="\e[0m"
 
 DIR=""
-
 username=$1
+
+config_file="/root/onedrive/config"
 
 
 yum  groupinstall 'Development Tools' -y && yum install libcurl-devel sqlite-devel libnotify-devel -y
@@ -48,8 +48,6 @@ make install || { echo "Error: Failed to install OneDrive"; exit 1; }
 
 # Deactivate the virtual environment
 deactivate || { echo "Warning: Failed to deactivate virtual environment"; }
-
-config_file="/root/onedrive/config"
 
 # Prompt the user for their name
 
@@ -140,7 +138,7 @@ fi
 sudo systemctl start onedrive@alex.service
 if [ $? = 0 ]
 then
-echo -e "`date` started onedrive" >> /home/$usename/onedrive.log
+echo -e "`date` started onedrive" >> /home/$username/onedrive.log
 fi
 
 /usr/local/bin/onedrive --synchronize
